@@ -6,8 +6,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
-import static java.lang.Math.pow;
-
+/**
+ * The task is as follows:<br>
+ * Create a function that differentiates a polynomial for a given value of x.
+ * Your function will receive 2 arguments: a polynomial as a string, and a point
+ * to evaluate the equation as an integer.<br>
+ *
+ * Assumptions:
+ * <ul>
+ * <li>There will be a coefficient near each x, unless the coefficient equals 1 or -1.
+ * <li>There will be an exponent near each x, unless the exponent equals 0 or 1.
+ * <li>All exponents will be greater or equal to zero
+ * <li>Both exponents and coefficients are integers
+ * </ul>
+ *
+ * Examples:
+ * <ul>
+ * <li>Main.differenatiate("12x+2", 3)      ==>   12
+ * <li>Main.differenatiate("x^2+3x+2", 3)   ==>   9
+ * </ul>
+ *
+ * @see <a href="https://www.codewars.com/kata/566584e3309db1b17d000027">Kata at codewars.com</a>
+ * @author Mikhail Kalinin
+ * @version 1.0
+ */
 public class Main {
     static final Pattern termPattern = Pattern.compile("[-+]\\d*x?(?:\\^\\d+)?");
     static final Pattern coefficientPattern = Pattern.compile("([+-]\\d+)");
@@ -24,14 +46,22 @@ public class Main {
 
         Term findDerivative() {
             int newCoefficient = coefficient * exponent;
-            int newExponent = exponent -1;
+            int newExponent = (exponent > 0) ? exponent -1 : 0;
             return new Term(newCoefficient, newExponent);
         }
 
         BigInteger evaluateForX(long x) {
-            int value = (int) (coefficient * pow(x, exponent));
-            String string = String.valueOf(value);
-            return new BigInteger(string);
+            BigInteger bigCoeff = new BigInteger(String.valueOf(coefficient));
+            BigInteger bigX = new BigInteger(String.valueOf(x));
+            BigInteger power = bigX.pow(exponent);
+            return bigCoeff.multiply(power);
+        }
+
+        @Override
+        public String toString() {
+            String signedCoefficient = (coefficient >= 0) ? "+" + coefficient
+                    : "" + coefficient;
+            return signedCoefficient + "x^" + exponent;
         }
     }
 
@@ -70,7 +100,6 @@ public class Main {
                     : DEFAULT_COEFFICIENT;
             int exponent = (exponentMatcher.find()) ? Integer.parseInt(exponentMatcher.group(1))
                     : DEFAULT_EXPONENT;
-
             tryAdvance();
             return new Term(coefficient, exponent);
         }
