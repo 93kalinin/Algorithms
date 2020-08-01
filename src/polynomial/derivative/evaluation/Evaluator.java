@@ -1,16 +1,14 @@
-package com.codewars;
+package polynomial.derivative.evaluation;
 
 import java.math.BigInteger;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
-import static com.codewars.TermExtractor.Term;
-
+/** Find a value of a derivative of a given expression at a certain point */
 public class Evaluator {
     public static BigInteger differentiate(String polynomial, long x) {
         String normalized = normalize(polynomial);
-        System.out.println(normalized);
         TermExtractor extractor = new TermExtractor(normalized);
         Spliterator<Term> spliterator = Spliterators.spliteratorUnknownSize(extractor,
                 Spliterator.NONNULL | Spliterator.IMMUTABLE);

@@ -22,4 +22,4 @@
  * @author Mikhail Kalinin
  * @version 1.0
  */
-package com.codewars;
+package polynomial.derivative.evaluation;
