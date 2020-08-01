@@ -1,11 +1,11 @@
+import com.codewars.Evaluator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.math.BigInteger;
 
-public class MainTest {
+public class EvaluatorTest {
     enum TestParam {
         ONE_NO_COEFFICIENT_NO_EXPONENT("x", "1", 1, "1"),
         ONE_NEGATIVE_NO_EXPONENT("-33x", "-33", -12, "-33"),
@@ -22,12 +22,12 @@ public class MainTest {
                 295,
                 "-1236802641565235");
 
-        public final String polynomial;
-        public final String derivative;
-        public final int x;
-        public final BigInteger expected;
+        final String polynomial;
+        final String derivative;
+        final int x;
+        final BigInteger expected;
 
-        private TestParam(String polynomial, String derivative, int x, String expected) {
+        TestParam(String polynomial, String derivative, int x, String expected) {
             this.polynomial = polynomial;
             this.derivative = derivative;
             this.x = x;
@@ -38,7 +38,7 @@ public class MainTest {
     @ParameterizedTest
     @EnumSource(TestParam.class)
     void emuns(TestParam arg) {
-        BigInteger actual = Main.differentiate(arg.polynomial, arg.x);
+        BigInteger actual = Evaluator.differentiate(arg.polynomial, arg.x);
         Assertions.assertEquals(arg.expected, actual);
     }
 }
