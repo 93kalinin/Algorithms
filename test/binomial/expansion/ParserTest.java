@@ -1,30 +1,25 @@
 package binomial.expansion;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTest {
-    enum Expression {
-        SIMPLE("(2x+1)^2", new Constants(2, 1, 2));
-
-        final String stringExpression;
-        final Constants expectedConstants;
-
-        Expression(String stringExpression, Constants expectedConstants) {
-            this.stringExpression = stringExpression;
-            this.expectedConstants = expectedConstants;
-        }
-    }
-
     @ParameterizedTest
-    @EnumSource(Expression.class)
-    void parseStringExpression(Expression arg) {
-        Parser parser = new Parser(arg.stringExpression);
+    @CsvSource({
+            "(2x+1)^2, 2, 1, 2",
+            "(-11x-9)^7, -11, -9, 7",
+            "(x-2)^1, 1, -2, 1",
+            "(-x+3)^0, -1, 3, 0",
+            "(x+0)^1, 1, 0, 1"
+    })
+    void parseValidStringExpression(String expression, int a, int b, int n) {
+        Parser parser = new Parser(expression);
+        Constants expected = new Constants(a, b, n);
 
         Constants actual = parser.parse();
 
-        assertEquals(arg.expectedConstants, actual);
+        assertEquals(expected, actual);
     }
 }

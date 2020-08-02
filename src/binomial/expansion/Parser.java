@@ -5,40 +5,30 @@ import java.util.regex.Pattern;
 
 /** Parse an expression in the form "(ax+b)^n" and put its constants a, b and n in a Constants instance */
 class Parser {
-    static final Pattern aPattern = Pattern.compile("^\\((\\d+)?\\w");
-    static final Pattern bPattern = Pattern.compile("[+-](\\d+)\\)");
-    static final Pattern nPattern = Pattern.compile("\\)(?:\\^(\\d+))?");
+    static final Pattern expressionPattern =
+            Pattern.compile("\\((?<aCoeff>[+-]?\\d+)\\p{Alpha}(?<bCoeff>[+-]\\d+)\\)\\^(?<exp>\\+?\\d+)");
 
-    private final Matcher aMatcher, bMatcher, nMatcher;
+    private final Matcher matcher;
 
     Parser(String input) {
-        this.aMatcher = aPattern.matcher(input);
-        this.bMatcher = bPattern.matcher(input);
-        this.nMatcher = nPattern.matcher(input);
+        String norma = normalizeInput(input);
+        matcher = expressionPattern.matcher(norma);
+        if (!matcher.matches()) {
+            throw new IllegalArgumentException("Failed to parse the expression." + System.lineSeparator()
+                    + "An expression in the form (ax+b)^n is expected. Got " + input
+                    + ". a, b and n should be integers; n is non-negative.");
+        }
     }
 
     Constants parse() {
-        checkForParseFail(aMatcher.find(), bMatcher.find(), nMatcher.find());
-        int a = Integer.parseInt(aMatcher.group(1));
-        int b = Integer.parseInt(bMatcher.group(1));
-        int n = Integer.parseInt(nMatcher.group(1));
+        int a = Integer.parseInt(matcher.group("aCoeff"));
+        int b = Integer.parseInt(matcher.group("bCoeff"));
+        int n = Integer.parseInt(matcher.group("exp"));
         return new Constants(a, b, n);
     }
 
-    private static void checkForParseFail(boolean aIsParsed, boolean bIsParsed, boolean nIsParsed) {
-        if (aIsParsed && bIsParsed && nIsParsed) {
-            return;
-        }
-        boolean multipleFailures = (!aIsParsed && !bIsParsed)
-                || (!bIsParsed && !nIsParsed)
-                || (!aIsParsed && !nIsParsed);
-        String pluralEnding = (multipleFailures) ? "s" : "";
-        String aFail = (aIsParsed) ? "" : "a ";
-        String bFail = (bIsParsed) ? "" : "b ";
-        String nFail = (nIsParsed) ? "" : "c ";
-
-        throw new IllegalArgumentException("Parsing failed for the following constant" + pluralEnding + ": "
-                + aFail + bFail + nFail + System.lineSeparator()
-                + "An expression in the form (ax+b)^n is expected. a and b are integers, n is non-negative.");
+    /** Make sure that the variable has a coefficient, e.g. (-x+4)^2 => (-1x+4)^2 */
+    private static String normalizeInput(String input) {
+        return input.replaceFirst("\\(([-+])?(\\p{Alpha})", "($11$2");
     }
 }
