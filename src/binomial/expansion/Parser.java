@@ -1,12 +1,14 @@
 package binomial.expansion;
 
+import codewars.util.IntBinomial;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Parse an expression in the form "(ax+b)^n" and put its constants a, b and n in a Constants instance */
 class Parser {
     static final Pattern expressionPattern =
-            Pattern.compile("\\((?<aCoeff>[+-]?\\d+)\\p{Alpha}(?<bCoeff>[+-]\\d+)\\)\\^(?<exp>\\+?\\d+)");
+            Pattern.compile("\\((?<coeff1>[+-]?\\d+)(?<varName>\\p{Alpha})(?<coeff2>[+-]\\d+)\\)\\^(?<exp>\\+?\\d+)");
 
     private final Matcher matcher;
 
@@ -20,11 +22,12 @@ class Parser {
         }
     }
 
-    Constants parse() {
-        int a = Integer.parseInt(matcher.group("aCoeff"));
-        int b = Integer.parseInt(matcher.group("bCoeff"));
-        int n = Integer.parseInt(matcher.group("exp"));
-        return new Constants(a, b, n);
+    IntBinomial parse() {
+        char variableName = matcher.group("varName").charAt(0);
+        int coeff1 = Integer.parseInt(matcher.group("coeff1"));
+        int coeff2 = Integer.parseInt(matcher.group("coeff2"));
+        int exponent = Integer.parseInt(matcher.group("exp"));
+        return new IntBinomial(variableName, coeff1, coeff2, exponent);
     }
 
     /** Make sure that the variable has a coefficient, e.g. (-x+4)^2 => (-1x+4)^2 */

@@ -2,6 +2,7 @@ package binomial.expansion;
 
 import java.util.PrimitiveIterator;
 
+/** Generate the nth row of the Pascal's triangle */
 public class PascalTriangleRow implements PrimitiveIterator.OfInt {
     private int nextElement, generatedElementsCount;
     private final int rowNumber;

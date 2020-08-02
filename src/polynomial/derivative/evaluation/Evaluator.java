@@ -1,5 +1,7 @@
 package polynomial.derivative.evaluation;
 
+import codewars.util.IntTerm;
+
 import java.math.BigInteger;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -10,7 +12,7 @@ public class Evaluator {
     public static BigInteger differentiate(String polynomial, long x) {
         String normalized = normalize(polynomial);
         TermExtractor extractor = new TermExtractor(normalized);
-        Spliterator<Term> spliterator = Spliterators.spliteratorUnknownSize(extractor,
+        Spliterator<IntTerm> spliterator = Spliterators.spliteratorUnknownSize(extractor,
                 Spliterator.NONNULL | Spliterator.IMMUTABLE);
 
         return StreamSupport.stream(spliterator, false)
@@ -28,13 +30,13 @@ public class Evaluator {
                 .replaceAll("([+-])x", "$11x");
     }
 
-    private static Term findDerivative(Term arg) {
+    private static IntTerm findDerivative(IntTerm arg) {
         int newCoefficient = arg.coefficient * arg.exponent;
         int newExponent = (arg.exponent > 0) ? arg.exponent -1 : 0;
-        return new Term(newCoefficient, newExponent);
+        return new IntTerm(newCoefficient, newExponent);
     }
 
-    private static BigInteger evaluateForX(Term term, long x) {
+    private static BigInteger evaluateForX(IntTerm term, long x) {
         BigInteger bigCoeff = new BigInteger(String.valueOf(term.coefficient));
         BigInteger bigX = new BigInteger(String.valueOf(x));
         BigInteger power = bigX.pow(term.exponent);

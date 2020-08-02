@@ -1,11 +1,13 @@
 package polynomial.derivative.evaluation;
 
+import codewars.util.IntTerm;
+
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Lazily split an algebraic expression into separate terms; e.g. "4x^3+2x" => "4x^3" "2x" */
-class TermExtractor implements Iterator<Term> {
+class TermExtractor implements Iterator<IntTerm> {
     static final Pattern termPattern = Pattern.compile("[-+]\\d*x?(?:\\^\\d+)?");
     static final Pattern coefficientPattern = Pattern.compile("([+-]\\d+)");
     static final Pattern exponentPattern = Pattern.compile("x\\^(\\d+)");
@@ -33,7 +35,7 @@ class TermExtractor implements Iterator<Term> {
     }
 
     @Override
-    public Term next() {
+    public IntTerm next() {
         if (!hasNext) {
             throw new IllegalStateException("This iterator is either empty or exhausted");
         }
@@ -44,7 +46,7 @@ class TermExtractor implements Iterator<Term> {
         int exponent = (exponentMatcher.find()) ? Integer.parseInt(exponentMatcher.group(1))
                 : DEFAULT_EXPONENT;
         tryAdvance();
-        return new Term(coefficient, exponent);
+        return new IntTerm(coefficient, exponent);
     }
 
     private void tryAdvance() {
