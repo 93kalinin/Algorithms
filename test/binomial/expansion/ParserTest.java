@@ -15,11 +15,10 @@ public class ParserTest {
             "(-m+3)^0, m, -1, 3, 0",
             "(K+0)^1, K, 1, 0, 1"
     })
-    void parseValidStringExpression(String expression, char variableName, int coeff1, int coeff2, int exponent) {
-        Parser parser = new Parser(expression);
+    void parseValidStringExpression(String expression, String variableName, int coeff1, int coeff2, int exponent) {
         IntBinomial expected = new IntBinomial(variableName, coeff1, coeff2, exponent);
 
-        IntBinomial actual = parser.parse();
+        IntBinomial actual = Expander.parse(expression);
 
         assertEquals(expected, actual);
     }

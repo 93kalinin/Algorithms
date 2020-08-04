@@ -12,7 +12,7 @@ public class PascalTriangleRow implements PrimitiveIterator.OfInt {
             throw new IllegalArgumentException("Only non-negative numbers are allowed as row numbers. " +
                     "Row counting starts from zero.");
         }
-        this.rowNumber = rowNumber +2;
+        this.rowNumber = rowNumber + 1;    //start counting from 1 not 0
         nextElement = 1;
     }
     @Override

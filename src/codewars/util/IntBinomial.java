@@ -4,10 +4,10 @@ import java.util.Objects;
 
 /** Hold constants a, b, n of a term like (ax+b)^n */
 public class IntBinomial {
-    public final char variableName;
+    public final String variableName;
     public final int coeff1, coeff2, exponent;
 
-    public IntBinomial(char variableName, int coeff1, int coeff2, int exponent) {
+    public IntBinomial(String variableName, int coeff1, int coeff2, int exponent) {
         this.variableName = variableName;
         this.coeff1 = coeff1;
         this.coeff2 = coeff2;
@@ -19,7 +19,7 @@ public class IntBinomial {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IntBinomial that = (IntBinomial) o;
-        return variableName == that.variableName &&
+        return variableName.equals(that.variableName) &&
                 coeff1 == that.coeff1 &&
                 coeff2 == that.coeff2 &&
                 exponent == that.exponent;
