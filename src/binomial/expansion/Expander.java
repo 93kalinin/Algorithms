@@ -46,7 +46,6 @@ public class Expander {
     }
 
     private static String termFormat(String varName, BigInteger coefficient, int exponent) {
-        System.out.println("got " + varName + " " + coefficient + " " + exponent);
         if (coefficient.equals(BigInteger.ZERO)) return "";
         boolean coefficientIsPositive = coefficient.compareTo(BigInteger.ZERO) > 0;
         String signedCoefficient = (coefficientIsPositive) ? "+" + coefficient
