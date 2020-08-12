@@ -1,7 +1,5 @@
 package polynomial.derivative.evaluation;
 
-import codewars.util.IntTerm;
-
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

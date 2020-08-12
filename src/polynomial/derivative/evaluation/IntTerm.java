@@ -1,4 +1,4 @@
-package codewars.util;
+package polynomial.derivative.evaluation;
 
 /** Hold values for an algebraic term such as 9x^2, where 9 is coefficient and 2 is exponent */
 public class IntTerm {

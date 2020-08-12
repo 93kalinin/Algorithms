@@ -2,7 +2,8 @@ package line.pathfind;
 
 import java.util.EnumSet;
 
-/** The task requires to navigate through a path which consists of three types of tiles with certain properties.
+/**
+ * The task requires to navigate through a path which consists of five types of tiles with certain properties.
  * Keep track of those properties.
  */
 public enum Tile {
@@ -11,7 +12,11 @@ public enum Tile {
     VERTICAL('|', Direction.DOWN_SET, Direction.NONE_SET, Direction.UP_SET, Direction.NONE_SET),
 
     TURN('+', Direction.LEFT_OR_RIGHT_SET, Direction.UP_OR_DOWN_SET,
-            Direction.LEFT_OR_RIGHT_SET, Direction.UP_OR_DOWN_SET);
+            Direction.LEFT_OR_RIGHT_SET, Direction.UP_OR_DOWN_SET),
+
+    EMPTY(' ', Direction.NONE_SET, Direction.NONE_SET, Direction.NONE_SET, Direction.NONE_SET),
+
+    ENDPOINT('X', Direction.ALL_SET, Direction.ALL_SET, Direction.ALL_SET, Direction.ALL_SET);
 
     private final char char_;
     private final EnumSet<Direction> ifCameFromUp, ifCameFromRight, ifCameFromDown, ifCameFromLeft;
@@ -35,16 +40,42 @@ public enum Tile {
      *     <li>standing on +, came from the left -> can either go UP or DOWN (you have to turn at '+');
      *     <li>standing on -, came from the bottom (DOWN) -> exception: that tile cannot be entered from the bottom;
      * </ul>
+     * There are two endpoints in relation to any path -- start and finish. This method should never be
+     * called on the finish point because it will yield an invalid result. Furthermore, resolving
+     * the next step while the finish endpoint has been reached is pointless in this task. <br>
+     * <br> @param if cameFrom is null, then default to LEFT;
+     * <br> @param if standingOn is null, will throw NPE.
      */
-    EnumSet<Direction> resolveNextStep(Tile standingOn, Direction cameFrom) {
-        EnumSet<Direction> result = (cameFrom.equals(Direction.UP)) ? standingOn.ifCameFromUp
-                : (cameFrom.equals(Direction.RIGHT)) ? standingOn.ifCameFromRight
-                : (cameFrom.equals(Direction.DOWN)) ? standingOn.ifCameFromDown
-                : standingOn.ifCameFromLeft;
+    EnumSet<Direction> resolveNextStep(Direction cameFrom) {
+        EnumSet<Direction> result = (cameFrom.equals(Direction.UP)) ? this.ifCameFromUp
+                : (cameFrom.equals(Direction.RIGHT)) ? this.ifCameFromRight
+                : (cameFrom.equals(Direction.DOWN)) ? this.ifCameFromDown
+                : this.ifCameFromLeft;
         if (result.isEmpty()) {
-            throw new IllegalStateException("The tile " + char_
+            throw new IllegalStateException("The tile " + this.char_
                     + " cannot be entered from this direction " + cameFrom);
         }
         return result;
+    }
+
+    static Tile resolve(char tileChar) {
+        for (Tile tile : Tile.values()) {
+            if (tile.char_ == tileChar) {
+                return tile;
+            }
+        }
+
+        StringBuilder errorMessage = new StringBuilder("Cannot resolve the tile for the given character ");
+        errorMessage.append(tileChar);
+        errorMessage.append(System.lineSeparator());
+        errorMessage.append("Only the following tiles are supported: ");
+        errorMessage.append(System.lineSeparator());
+        for (Tile tile : Tile.values()) {
+            errorMessage.append(tile.toString())
+                    .append(" ")
+                    .append(tile.char_)
+                    .append(System.lineSeparator());
+        }
+        throw new IllegalArgumentException(errorMessage.toString());
     }
 }

@@ -1,25 +1,49 @@
 package line.pathfind;
 
-import codewars.util.IntCoordinate;
-
+import java.util.EnumSet;
 import java.util.HashSet;
 
 /**
- * Keep track of the current position on the grid and the visited tiles
+ * Keep track of the current position on the grid and the visited tiles.
+ * Traverse the grid according to the task rules.
  */
 public class Path {
-    private final Grid grid;
+    public enum Result { DEAD_END, AMBIGUITY, FINISHED }
 
-    private HashSet<IntCoordinate> path;
-    private int currentX, currentY;
+    private final Grid grid;
+    private final HashSet<IntCoordinate> visited;
+    private final IntCoordinate finish;
+
+    private IntCoordinate currentCoordinate;
     private Direction cameFrom;
 
-    public Path(Grid grid, IntCoordinate position) {
+    public Path(Grid grid, IntCoordinate start, IntCoordinate finish) {
         this.grid = grid;
-        path = new HashSet<>();
-        currentX = position.x;
-        currentY = position.y;
+        this.visited = new HashSet<>();
+        this.finish = finish;
+        this.currentCoordinate = start;
     }
 
+    /**
+     * Try reaching finish unless faced with a dead end or ambiguity
+     */
+    public Result go() {
+        while (!currentCoordinate.equals(finish)) {
+            Tile currentTile = grid.get(currentCoordinate.x, currentCoordinate.y);
+            visited.add(currentCoordinate);
+            EnumSet<Direction> possibleDirections = currentTile.resolveNextStep(cameFrom);
 
+            possibleDirections.removeIf(direction -> {
+                IntCoordinate neighborCoordinate = currentCoordinate.getNeighbor(direction);
+                return visited.contains(neighborCoordinate);
+            });
+            if (possibleDirections.isEmpty()) return Result.DEAD_END;
+            if (possibleDirections.size() > 1) return Result.AMBIGUITY;
+
+            Direction theOnlyPossibleDirection = (Direction) possibleDirections.toArray()[0];
+            currentCoordinate = currentCoordinate.getNeighbor(theOnlyPossibleDirection);
+            cameFrom = theOnlyPossibleDirection.opposite();
+        }
+        return Result.FINISHED;
+    }
 }

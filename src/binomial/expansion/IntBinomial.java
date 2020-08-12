@@ -1,4 +1,4 @@
-package codewars.util;
+package binomial.expansion;
 
 import java.util.Objects;
 

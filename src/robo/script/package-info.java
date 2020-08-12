@@ -11,7 +11,7 @@
  *     <li> Round Brackets - Do not apply any syntax highlighting to these characters
  * </ul>
  * <br>
- * @see <a href="https://www.codewars.com/kata/58708934a44cfccca60000c4">Kata at codewars.com</a>
+ * @see <a href="https://www.codewars.com/kata/58708934a44cfccca60000c4">kata at codewars.com</a>
  * @author Mikhail Kalinin
  * @version 1.0
  */

@@ -2,7 +2,6 @@ package binomial.expansion;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import codewars.util.IntBinomial;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,13 +1,13 @@
 package polynomial.derivative.evaluation;
 
-import codewars.util.IntTerm;
-
 import java.math.BigInteger;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
-/** Find a value of a derivative of a given expression at a certain point */
+/**
+ * Find a value of a derivative of a given expression at a certain point
+ */
 public class Evaluator {
     public static BigInteger differentiate(String polynomial, long x) {
         String normalized = normalize(polynomial);

@@ -3,7 +3,7 @@ package robo.script;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Util {
+public class Highlight {
     public static String highlight(String code) {
         Pattern syntaxHighlightingTarget = Pattern.compile("(F+|L+|R+|\\d+)");
         Matcher matcher = syntaxHighlightingTarget.matcher(code);

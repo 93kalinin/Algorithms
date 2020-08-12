@@ -14,7 +14,7 @@
  * If the power of the term is 0, only the coefficient should be included. If the power of the term is 1,
  * the caret and power should be excluded.
  *
- *  @see <a href="https://www.codewars.com/kata/540d0fdd3b6532e5c3000b5b">Kata at codewars.com</a>
+ *  @see <a href="https://www.codewars.com/kata/540d0fdd3b6532e5c3000b5b">kata at codewars.com</a>
  *  @author Mikhail Kalinin
  *  @version 1.0
  */

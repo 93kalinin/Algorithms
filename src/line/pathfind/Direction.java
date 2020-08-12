@@ -20,7 +20,7 @@ public enum Direction { UP(0, -1), RIGHT(1, 0), LEFT(-1, 0), DOWN(0, 1);
             EnumSet.of(Direction.UP, Direction.DOWN));
     static final EnumSet<Direction> LEFT_OR_RIGHT_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
             EnumSet.of(Direction.LEFT, Direction.RIGHT));
-    static final EnumSet<Direction> ANY_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
+    static final EnumSet<Direction> ALL_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
             EnumSet.allOf(Direction.class));
     static final EnumSet<Direction> NONE_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
             EnumSet.noneOf(Direction.class));
@@ -32,5 +32,10 @@ public enum Direction { UP(0, -1), RIGHT(1, 0), LEFT(-1, 0), DOWN(0, 1);
         this.yShift = yShift;
     }
 
-
+    Direction opposite() {
+        return (this == UP) ? DOWN
+                : (this == RIGHT) ? LEFT
+                : (this == LEFT) ? RIGHT
+                : UP;
+    }
 }

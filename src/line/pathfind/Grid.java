@@ -1,9 +1,8 @@
 package line.pathfind;
 
-import codewars.util.IntCoordinate;
-
 /**
- * Find the two endpoints marked with 'X' and ensure that boundaries of the grid will not be crossed
+ * Find the two endpoints marked with 'X' and ensure that boundaries of the grid will not be crossed.
+ * Hides the array which represents the grid ank makes it immutable from the outside.
  */
 public class Grid {
     private final char[][] grid;
@@ -33,11 +32,15 @@ public class Grid {
         secondEndpoint = secondEndpointTmp;
     }
 
-    public char get(int x, int y) {
+    /**
+     * @return the tile at the given coordinates or an empty tile if coordinates are out of bounds
+     */
+    public Tile get(int x, int y) {
         boolean coordinateIsInvalid = x < 0 || y < 0
                 || x >= xLength()
                 || y >= yLength();
-        return (coordinateIsInvalid) ? ' ' : grid[y][x];
+        char charToResolve = (coordinateIsInvalid) ? ' ' : grid[y][x];
+        return Tile.resolve(charToResolve);
     }
 
     public int xLength() {
