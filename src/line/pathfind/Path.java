@@ -46,4 +46,17 @@ public class Path {
         }
         return Result.FINISHED;
     }
+
+    private static boolean isValidFor(Grid grid, IntCoordinate start) {
+        IntCoordinate finish = (start.equals(grid.firstEndpoint)) ?
+                grid.secondEndpoint : grid.firstEndpoint;
+        Path path = new Path(grid, start, finish);
+        return path.go() == Path.Result.FINISHED;
+    }
+
+    public static boolean line(final char[][] gridArg) {
+        Grid grid = new Grid(gridArg);
+        return isValidFor(grid, grid.firstEndpoint)
+                || isValidFor(grid, grid.secondEndpoint);
+    }
 }

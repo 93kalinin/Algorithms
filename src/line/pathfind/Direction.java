@@ -6,26 +6,23 @@ import java.util.EnumSet;
 /**
  * Keep track of directions and changes in coordinates which have to be made in order to move in a given direction.
  */
-public enum Direction { UP(0, -1), RIGHT(1, 0), LEFT(-1, 0), DOWN(0, 1);
+public enum Direction {
+    UP(0, -1),
+    RIGHT(1, 0),
+    LEFT(-1, 0),
+    DOWN(0, 1);
 
-    static final EnumSet<Direction> RIGHT_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.RIGHT));
-    static final EnumSet<Direction> LEFT_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.LEFT));
-    static final EnumSet<Direction> DOWN_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.DOWN));
-    static final EnumSet<Direction> UP_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.UP));
-    static final EnumSet<Direction> UP_OR_DOWN_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.UP, Direction.DOWN));
-    static final EnumSet<Direction> LEFT_OR_RIGHT_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.of(Direction.LEFT, Direction.RIGHT));
-    static final EnumSet<Direction> ALL_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.allOf(Direction.class));
-    static final EnumSet<Direction> NONE_SET = (EnumSet<Direction>) Collections.unmodifiableSet(
-            EnumSet.noneOf(Direction.class));
+    static final EnumSet<Direction>
+            RIGHT_SET = immutable(EnumSet.of(RIGHT)),
+            LEFT_SET = immutable(EnumSet.of(LEFT)),
+            DOWN_SET = immutable(EnumSet.of(DOWN)),
+            UP_SET = immutable(EnumSet.of(UP)),
+            UP_DOWN_SET = immutable(EnumSet.of(UP, DOWN)),
+            LEFT_RIGHT_SET = immutable(EnumSet.of(LEFT, RIGHT)),
+            ALL_SET = immutable(EnumSet.allOf(Direction.class)),
+            NONE_SET = immutable(EnumSet.noneOf(Direction.class));
 
-    int xShift, yShift;
+    final int xShift, yShift;
 
     Direction(int xShift, int yShift) {
         this.xShift = xShift;
@@ -37,5 +34,9 @@ public enum Direction { UP(0, -1), RIGHT(1, 0), LEFT(-1, 0), DOWN(0, 1);
                 : (this == RIGHT) ? LEFT
                 : (this == LEFT) ? RIGHT
                 : UP;
+    }
+
+    private static EnumSet<Direction> immutable(EnumSet<Direction> arg) {
+        return (EnumSet<Direction>) Collections.unmodifiableSet(arg);
     }
 }
