@@ -1,0 +1,13 @@
+# coordinates start at 0 and begin from the upper left corner
+# the first coordinate is on x (horizontal) axis and the second one is on y (vertical) axis
+# two pairs of coordinates before vertical line | are those of endpoints
+# the rest of the coordinates are those of every walkable tile on the grid, i.e. '+', '-' and '|'
+#
+   +--------+
+X--+        +--+
+               |
+               X
+0,1 15,3 S 3,0 4,0 5,0 6,0 7,0 8,0 9,0 10,0 11,0 12,0 1,1 2,1 3,1 12,1 13,1 14,1 15,1 15,2
+
+X-----|----X
+0,0 11,0 S 1,0 2,0 3,0 4,0 5,0 6,0 7,0 8,0 9,0 10,0

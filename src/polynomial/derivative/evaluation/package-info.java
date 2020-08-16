@@ -14,12 +14,10 @@
  * <br>
  * Examples:
  * <ul>
- *     <li>Main.differenatiate("12x+2", 3)      ==>   12
- *     <li>Main.differenatiate("x^2+3x+2", 3)   ==>   9
+ *     <li>Evaluator.differentiate("12x+2", 3)      ==>   12
+ *     <li>Evaluator.differentiate("x^2+3x+2", 3)   ==>   9
  * </ul>
  * <br>
  * @see <a href="https://www.codewars.com/kata/566584e3309db1b17d000027">kata at codewars.com</a>
- * @author Mikhail Kalinin
- * @version 1.0
  */
 package polynomial.derivative.evaluation;

@@ -9,13 +9,11 @@
  * The expanded form should be returned as a string in the form ax^b+cx^d+ex^f... where a, c, and e are
  * the coefficients of the term, x is the original one character variable that was passed in the original
  * expression and b, d, and f, are the powers that x is being raised to in each term and are in decreasing order.
- * If the coefficient of a term is zero, the term should not be included. If the coeficient of a term is one,
+ * If the coefficient of a term is zero, the term should not be included. If the coefficient of a term is one,
  * the coefficient should not be included. If the coefficient of a term is -1, only the "-" should be included.
  * If the power of the term is 0, only the coefficient should be included. If the power of the term is 1,
  * the caret and power should be excluded.
  *
  *  @see <a href="https://www.codewars.com/kata/540d0fdd3b6532e5c3000b5b">kata at codewars.com</a>
- *  @author Mikhail Kalinin
- *  @version 1.0
  */
 package binomial.expansion;

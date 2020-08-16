@@ -8,7 +8,7 @@ import java.util.HashSet;
  * Traverse the grid according to the task rules.
  */
 public class Path {
-    public enum Result { DEAD_END, AMBIGUITY, FINISHED }
+    public enum Result { DEAD_END, AMBIGUITY, PARTIAL, FINISHED }
 
     private final Grid grid;
     private final HashSet<IntCoordinate> visited;
@@ -25,26 +25,49 @@ public class Path {
     }
 
     /**
-     * Try reaching finish unless faced with a dead end or ambiguity
+     * Try reaching finish unless faced with a dead end or ambiguity.
+     * Make sure that every walkable tile (- + |) is a part of the path.
      */
     public Result go() {
-        while (!currentCoordinate.equals(finish)) {
-            Tile currentTile = grid.get(currentCoordinate.x, currentCoordinate.y);
-            visited.add(currentCoordinate);
-            EnumSet<Direction> possibleDirections = currentTile.resolveNextStep(cameFrom);
 
-            possibleDirections.removeIf(direction -> {
-                IntCoordinate neighborCoordinate = currentCoordinate.getNeighbor(direction);
-                return visited.contains(neighborCoordinate);
-            });
-            if (possibleDirections.isEmpty()) return Result.DEAD_END;
-            if (possibleDirections.size() > 1) return Result.AMBIGUITY;
+        while (true) {
+            Tile currentTile = grid.get(currentCoordinate.x, currentCoordinate.y);
+            EnumSet<Direction> possibleDirections = currentTile.resolveNextStep(cameFrom);
+            possibleDirections.removeIf(this::filter);
+            if (possibleDirections.isEmpty()) {
+                System.out.print("dead end at " + currentCoordinate);
+                return Result.DEAD_END;
+            }
+            if (possibleDirections.size() > 1) {
+                System.out.print("ambiguity end at " + currentCoordinate + " " + possibleDirections);
+                return Result.AMBIGUITY;
+            }
 
             Direction theOnlyPossibleDirection = (Direction) possibleDirections.toArray()[0];
             currentCoordinate = currentCoordinate.getNeighbor(theOnlyPossibleDirection);
+            if (currentCoordinate.equals(finish)) break;
+            visited.add(currentCoordinate);
             cameFrom = theOnlyPossibleDirection.opposite();
         }
-        return Result.FINISHED;
+
+        return (visited.equals(grid.everyWalkableTile)) ?
+                Result.FINISHED : Result.PARTIAL;
+    }
+
+    private boolean filter(Direction direction) {
+        IntCoordinate neighborCoordinate = currentCoordinate.getNeighbor(direction);
+        Tile neighbor = grid.get(neighborCoordinate.x, neighborCoordinate.y);
+        Direction mayEnterNeighborFrom = direction.opposite();
+
+        boolean neighborIsUnwalkable = neighbor.chr == ' ';
+        boolean neighborIsNotEnterableFromThisDirection =
+                neighbor.resolveNextStep(direction.opposite()).equals(Direction.NONE_SET);
+        boolean justBeenThere = direction.equals(cameFrom);
+
+        return visited.contains(neighborCoordinate)
+                || neighborIsUnwalkable
+                || neighborIsNotEnterableFromThisDirection
+                || justBeenThere;
     }
 
     private static boolean isValidFor(Grid grid, IntCoordinate start) {

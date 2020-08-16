@@ -13,7 +13,7 @@ public enum Tile {
     VERTICAL('|', Direction.DOWN_SET, Direction.NONE_SET,
             Direction.UP_SET, Direction.NONE_SET),
 
-    TURN('+', Direction.LEFT_SET, Direction.UP_SET,
+    TURN('+', Direction.LEFT_RIGHT_SET, Direction.UP_DOWN_SET,
             Direction.LEFT_RIGHT_SET, Direction.UP_DOWN_SET),
 
     EMPTY(' ', Direction.NONE_SET, Direction.NONE_SET,
@@ -22,12 +22,12 @@ public enum Tile {
     ENDPOINT('X', Direction.ALL_SET, Direction.ALL_SET,
             Direction.ALL_SET, Direction.ALL_SET);
 
-    private final char char_;
+    public final char chr;
     private final EnumSet<Direction> ifCameFromUp, ifCameFromRight, ifCameFromDown, ifCameFromLeft;
 
-    Tile(char char_, EnumSet<Direction> ifCameFromUp, EnumSet<Direction> ifCameFromRight,
+    Tile(char chr, EnumSet<Direction> ifCameFromUp, EnumSet<Direction> ifCameFromRight,
          EnumSet<Direction> ifCameFromDown, EnumSet<Direction> ifCameFromLeft) {
-        this.char_ = char_;
+        this.chr = chr;
         this.ifCameFromUp = ifCameFromUp;
         this.ifCameFromRight = ifCameFromRight;
         this.ifCameFromDown = ifCameFromDown;
@@ -45,21 +45,26 @@ public enum Tile {
      *     cannot be entered from the bottom;
      * </ul>
      * There are two endpoints in relation to any path -- start and finish. This method should never be
-     * called on the finish point because it will yield an invalid result. Furthermore, resolving
+     * called on the finish point because it will yield an incorrect result. Furthermore, resolving
      * the next step while the finish endpoint has been reached is pointless in this task. <br>
      * <br> @param if cameFrom is null, then default to LEFT (useful at the start endpoint);
      * <br> @param if standingOn is null, will throw NPE.
      */
     EnumSet<Direction> resolveNextStep(Direction cameFrom) {
+        if (cameFrom == null) return this.ifCameFromLeft.clone();
         return (cameFrom.equals(Direction.UP)) ? this.ifCameFromUp.clone()
                 : (cameFrom.equals(Direction.RIGHT)) ? this.ifCameFromRight.clone()
                 : (cameFrom.equals(Direction.DOWN)) ? this.ifCameFromDown.clone()
                 : this.ifCameFromLeft.clone();
     }
 
+    boolean canBeEnteredFrom(Direction direction) {
+        return this.resolveNextStep(direction) != Direction.NONE_SET;
+    }
+
     static Tile resolve(char tileChar) {
         for (Tile tile : Tile.values()) {
-            if (tile.char_ == tileChar) {
+            if (tile.chr == tileChar) {
                 return tile;
             }
         }
@@ -72,7 +77,7 @@ public enum Tile {
         for (Tile tile : Tile.values()) {
             errorMessage.append(tile.toString())
                     .append(" ")
-                    .append(tile.char_)
+                    .append(tile.chr)
                     .append(System.lineSeparator());
         }
         throw new IllegalArgumentException(errorMessage.toString());

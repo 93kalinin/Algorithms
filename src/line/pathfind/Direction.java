@@ -1,6 +1,5 @@
 package line.pathfind;
 
-import java.util.Collections;
 import java.util.EnumSet;
 
 /**
@@ -13,14 +12,14 @@ public enum Direction {
     DOWN(0, 1);
 
     static final EnumSet<Direction>
-            RIGHT_SET = immutable(EnumSet.of(RIGHT)),
-            LEFT_SET = immutable(EnumSet.of(LEFT)),
-            DOWN_SET = immutable(EnumSet.of(DOWN)),
-            UP_SET = immutable(EnumSet.of(UP)),
-            UP_DOWN_SET = immutable(EnumSet.of(UP, DOWN)),
-            LEFT_RIGHT_SET = immutable(EnumSet.of(LEFT, RIGHT)),
-            ALL_SET = immutable(EnumSet.allOf(Direction.class)),
-            NONE_SET = immutable(EnumSet.noneOf(Direction.class));
+            RIGHT_SET = EnumSet.of(RIGHT),
+            LEFT_SET = EnumSet.of(LEFT),
+            DOWN_SET = EnumSet.of(DOWN),
+            UP_SET = EnumSet.of(UP),
+            UP_DOWN_SET = EnumSet.of(UP, DOWN),
+            LEFT_RIGHT_SET = EnumSet.of(LEFT, RIGHT),
+            ALL_SET = EnumSet.allOf(Direction.class),
+            NONE_SET = EnumSet.noneOf(Direction.class);
 
     final int xShift, yShift;
 
@@ -34,9 +33,5 @@ public enum Direction {
                 : (this == RIGHT) ? LEFT
                 : (this == LEFT) ? RIGHT
                 : UP;
-    }
-
-    private static EnumSet<Direction> immutable(EnumSet<Direction> arg) {
-        return (EnumSet<Direction>) Collections.unmodifiableSet(arg);
     }
 }

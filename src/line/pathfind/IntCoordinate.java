@@ -29,4 +29,11 @@ public class IntCoordinate {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString() {
+        return "IntCoordinate " +
+                "x=" + x +
+                " y=" + y;
+    }
 }

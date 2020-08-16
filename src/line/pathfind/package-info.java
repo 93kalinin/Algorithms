@@ -16,8 +16,64 @@
  *     <li> Sometimes a line may be valid in one direction but not the other. Such a line is still considered valid.
  *     <li> Every line "character" found in the grid must be part of the line. If extras are found then the line is not valid.
  * </ul>
+ *
+ * <pre>
+ *     Good lines
+ *
+ * X---------X
+ *
+ *
+ * X
+ * |
+ * |
+ * X
+ *
+ *
+ *    +--------+
+ * X--+        +--+
+ *                |
+ *                X
+ *
+ *
+ *    +-------------+
+ *    |             |
+ * X--+      X------+
+ *
+ *
+ *    +-------+
+ *    |      +++---+
+ * X--+      +-+   X
+ *
+ *
+ *      Bad lines
+ *
+ * X-----|----X
+ *
+ *
+ * X
+ * |
+ * +
+ * X
+ *
+ *
+ *    |--------+
+ * X---        ---+
+ *                |
+ *                X
+ *
+ *
+ *    +------
+ *    |
+ * X--+      X
+ *
+ *
+ *       +------+
+ *       |      |
+ * X-----+------+
+ *       |
+ *       X
+ * </pre>
+ *
  * @see <a href="https://www.codewars.com/kata/59c5d0b0a25c8c99ca000237">kata at codewars.com</a>
- * @author Mikhail Kalinin
- * @version 1.0
  */
 package line.pathfind;
