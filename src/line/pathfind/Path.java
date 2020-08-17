@@ -34,14 +34,8 @@ public class Path {
             Tile currentTile = grid.get(currentCoordinate.x, currentCoordinate.y);
             EnumSet<Direction> possibleDirections = currentTile.resolveNextStep(cameFrom);
             possibleDirections.removeIf(this::filter);
-            if (possibleDirections.isEmpty()) {
-                System.out.print("dead end at " + currentCoordinate);
-                return Result.DEAD_END;
-            }
-            if (possibleDirections.size() > 1) {
-                System.out.print("ambiguity end at " + currentCoordinate + " " + possibleDirections);
-                return Result.AMBIGUITY;
-            }
+            if (possibleDirections.isEmpty()) return Result.DEAD_END;
+            if (possibleDirections.size() > 1) return Result.AMBIGUITY;
 
             Direction theOnlyPossibleDirection = (Direction) possibleDirections.toArray()[0];
             currentCoordinate = currentCoordinate.getNeighbor(theOnlyPossibleDirection);

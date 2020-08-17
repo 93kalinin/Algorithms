@@ -1,5 +1,7 @@
 package greatest.warrior;
 
+import static greatest.warrior.Warrior.LEVEL_IS_INVALID;
+
 public enum Rank {
     PUSHOVER(1, 9),
     NOVICE(10, 19),
@@ -26,9 +28,22 @@ public enum Rank {
      */
     @Override
     public String toString() {
-        String name = this.toString()
+        String name = super.toString()
                 .toLowerCase();
         return name.substring(0,1).toUpperCase()
                 + name.substring(1).toLowerCase();
+    }
+
+    static Rank resolve(int level) {
+        if (LEVEL_IS_INVALID.test(level)) {
+            throw new IllegalArgumentException("Invalid level " + level);
+        }
+        for (Rank rank : Rank.values()) {
+            if (level >= rank.minLevel && level <= rank.maxLevel) {
+                return rank;
+            }
+        }
+        throw new RuntimeException("This part of code should never be reached. " +
+                "Make sure that level to rank mapping is correct");
     }
 }
